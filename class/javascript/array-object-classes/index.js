@@ -32,3 +32,6 @@ const remote = {
   turnOff: function () {},
   volumeUp: function () {},
 };
+console.log(4);
+console.log(remote.color);
+
