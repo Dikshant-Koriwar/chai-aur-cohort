@@ -62,12 +62,12 @@ function checktruthyValue(value) {
   }
 }
 
-checktruthyValue(1)
-checktruthyValue(0)
-checktruthyValue("hitesh")
-checktruthyValue("")
-checktruthyValue([])
-checktruthyValue([1, 2, 3])
+checktruthyValue(1); // Output: Truthy (1 is a non-zero number)
+checktruthyValue(0); // Output: Falsy (0 is explicitly falsy)
+checktruthyValue("hitesh"); // Output: Truthy (Non-empty string)
+checktruthyValue(""); // Output: Falsy (Empty string)
+checktruthyValue([]); // Output: Truthy (Empty array is considered truthy)
+checktruthyValue([1, 2, 3]); // Output: Truthy (Non-empty array is truthy)
 
 
 function login(username, password){
