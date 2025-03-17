@@ -19,12 +19,6 @@ let num = "42";
 // let convertedNum = +num;
 let convertedNum = parseInt(num);
 
-let num1 = "42a";
-// let convertedNum = Number(num);
-// let convertedNum = +num;
-let convertedNum1 = parseInt(num1);
-console.log(convertedNum1)
-
 let str = 123;
 let convertedString = String(str);
 
@@ -51,8 +45,6 @@ let y = 10;
 // console.log(Math.min(5, 10));
 
 console.log(Math.random() * 10);
-console.log(Math.floor(Math.random() *10))
-console.log(Math.ceil(Math.random() *10))
 
 
 let firstName = "hitesh"
