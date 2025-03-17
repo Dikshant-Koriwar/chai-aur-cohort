@@ -1,6 +1,5 @@
 // console.log(arr[-1]);
 
-
 //2
 const user = {
   name: "hitesh",
@@ -16,7 +15,7 @@ const proxyUser = new Proxy(user, {
     }
     return target[prop];
   },
-  set(target, prop, user){}
+  set(target, prop, user) {},
 });
 console.log(proxyUser.password);
 
@@ -30,9 +29,10 @@ function negativeIndex(arr) {
       return target[index];
     },
     set(target, prop, value) {
-      const index = Number(prop);
+      const index = Number(prop); //What is prop?
+      // In the Proxy, prop refers to the property name or index that you're trying to access or set.
       if (index < 0) {
-        target[target.length + index] = value;
+        target[target.length + index] = value; //
       } else {
         target[index] = value;
       }
@@ -40,7 +40,6 @@ function negativeIndex(arr) {
     },
   });
 }
-
 
 //1
 let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -57,7 +56,7 @@ console.log(arr);
 
 // ### Let's break it down step by step:
 
-// 1. **The `negativeIndex` function** creates a proxy around the original array (`arr`). 
+// 1. **The `negativeIndex` function** creates a proxy around the original array (`arr`).
 // 2. **The `get` trap** is triggered when accessing an element. It allows negative indexing by converting a negative index to a positive one (`target.length + index`).
 // 3. **The `set` trap** is triggered when assigning a value. It also handles negative indices and assigns the value to the corresponding positive index.
 
@@ -80,8 +79,6 @@ console.log(arr);
 // ### Conclusion:
 // Yes, it **modifies the original array** because the proxy is acting as a wrapper around the same reference.
 
-
-
 // Not exactly a **shallow copy**, but rather **direct reference sharing**.
 
 // ### What's happening?
@@ -101,7 +98,65 @@ console.log(arr);
 // This confirms that `newArr` and `arr` are pointing to the **same array in memory**.
 
 // ### In simple terms:
-// - `Proxy` acts as a **wrapper** that adds custom behavior (like negative indexing), but **doesn't create a new copy of the array**.  
+// - `Proxy` acts as a **wrapper** that adds custom behavior (like negative indexing), but **doesn't create a new copy of the array**.
 // - So, modifying `newArr` directly affects `arr`.
 
 // Would you like me to show you how to make a shallow copy and apply the proxy on that instead?
+
+// Ah, I see! You're confused about **`prop`** in this code:
+
+// ```js
+// set(target, prop, value) {
+//   const index = Number(prop);
+//   if (index < 0) {
+//     target[target.length + index] = value;
+//   } else {
+//     target[index] = value;
+//   }
+//   return true;
+// }
+// ```
+
+// ### What is `prop`?
+
+// - In the `Proxy`, `prop` refers to the **property name or index** that you're trying to access or set.
+
+// ### Example:
+
+// ```js
+// newArr[-1] = 22;
+// ```
+
+// In this case:
+
+// - `prop` is `-1` (a string, not a number by default).
+// - `Number(prop)` converts it to `-1` as a number.
+
+// ### Another Example:
+
+// ```js
+// newArr[2] = 100;
+// ```
+
+// - Here, `prop` would be `"2"` (because JavaScript treats keys as strings by default).
+// - `Number(prop)` converts it to `2`.
+
+// ---
+
+// ### Why do we need to convert `prop` to a number?
+
+// Because `prop` is **always a string** in the `Proxy` handler, even if you're accessing an index. So, converting it to a number allows us to handle negative indexing properly.
+
+// ---
+
+// ### Quick Summary:
+
+// | Parameter      | Meaning                                              |
+// |----------------|-----------------------------------------------------|
+// | `target`       | The original array (`arr`)                          |
+// | `prop`         | The property (or index) being accessed/modified     |
+// | `value`        | The value being assigned (only in `set`)           |
+
+// ---
+
+// Let me know if you want a deeper example or more practice on this! 😊
