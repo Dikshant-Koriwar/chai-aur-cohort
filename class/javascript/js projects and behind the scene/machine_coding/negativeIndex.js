@@ -151,11 +151,11 @@ console.log(arr);
 
 // ### Quick Summary:
 
-// | Parameter      | Meaning                                              |
+// | Parameter      | Meaning                                             |
 // |----------------|-----------------------------------------------------|
 // | `target`       | The original array (`arr`)                          |
 // | `prop`         | The property (or index) being accessed/modified     |
-// | `value`        | The value being assigned (only in `set`)           |
+// | `value`        | The value being assigned (only in `set`)            |
 
 // ---
 
