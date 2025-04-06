@@ -1,0 +1,227 @@
+import express from "express"
+
+const app =express();
+
+export default app;//write in app.js
+
+
+//index.js
+import {app}  from "./app.js"
+import dotenv from "dotenv"
+
+dotenv.config();
+const PORT= process.env.PORT || 3000;
+
+//db/db.js
+
+import mongoose from "mongoose"
+
+const connectDB = async ()=>{
+    try{
+        await mongoose.connect(MONGO_URI,{})
+        .then(()=>console.log("connected to DB))
+
+    }catch(error){
+        console.error("error connectting to DB)
+        process.exit(1);
+    }
+}
+
+import mongoose from "mongoose"
+
+const connectDB= async()=>{
+    try{
+        await mongoose.connect(MONGO_URI,{})
+        .then(()=>{
+            console.log("connected to DB)
+        })
+    }catch(error){
+        console.error("error connecting DB")
+        process.exit(1)
+    }
+}
+export default connectDB;
+
+
+=====================================
+import app from "./app.js"
+import dotenv from "dotenv"
+import {connectDB}  from ./db/db.js"
+
+dotenv.config({
+    path:"./env"
+})
+
+const PORT = process.env.PORT || 3000;
+
+connectDB()
+.then(()=>{
+    app.listen(PORT,()=>{
+        console.log(`listing on this PORT ${PORT}`)
+        process.exit(1);
+
+    })
+})
+.catch(error){
+    console.error(  `listing on this PORT${PORT} failed`)
+}
+====================================================
+.env file
+
+PORT=
+MONGO_URI=
+==================================================
+utils
+
+api-error.js
+
+class ApiError extends Error{
+    contructor(statusCode,message, errors=[],stack=""){
+        super(messsage)
+        this.statusCode= statusCode;
+        this.message=message;
+        this.errors =errors;
+
+        if(stack){
+            this.stack = stack;
+        }else{
+        Error.captureStackTrace(this, this.contructor)
+
+        }
+    }
+}
+export {ApiError};
+
+
+=================================================
+api-respons.js
+
+class ApiResponse{
+    constructor(statusCode,data, message="success"){
+        this.statusCode =statusCode;
+        this.data=data;
+        this.success = statusCode < 400;
+
+    }
+}
+
+export {ApiResponse}
+====================================================
+
+constants.js
+
+export const UserRolesEnum = Object.freeze({  //Object
+    ADMIN:"admin";,
+    STAFF:"staff",
+    CUSTOMER:"customer"
+})
+
+export const AvailableRoless =Object.values(UserRolesEnum)//array
+
+
+export const CommmonStatusEnum =Object.freeze({
+    ACTIVE:"active",
+    INACTIVE :"inactive",
+    PENDING:"pending"
+    CANCELLED:'cancelled"
+
+})
+
+export const AvailableCommonStatus = Object.values(CommmonStatusEnum)
+
+
+export const MemberShipPlanEnum =object.freeze({
+    BASIC :"basic",
+    PREMIUM:"premium",
+    VIP:"vip"
+})
+export const AvailableMembershipPlan =Object.values(MemberShipPlanEnum)
+================================================================
+import {request} from "express-validator"
+function asyncHandler(requestHandler){
+    return function(req,res,next){
+        Promise.resolve(requesthandler(req,res,next))
+        .catch((error)=>error)
+    }
+}
+
+export {aysncHandler}
+=================================================================
+
+models
+
+import mongoose from "mongoose"
+
+const userSchema = new Schema({})
+
+
+export const User = mongoose.model("User",userSchema)
+
+
+
+
+import mongoose from "mongoose"
+
+const userSchema =new Schema({
+    isMember:{
+        type:Boolean,
+        default:false
+    },
+    name:{
+        type:String,
+        reuired:[true,"User name is reuired"],
+        trim:true,
+    },
+    phone_number:{
+        type:Number,
+        reuired:[true,"Phone number is reuired"],
+        unique:true,
+        trim:true;
+
+    },
+    registered:{
+        type:Date,
+        default:Date.now,
+
+    },
+    city:{
+      type:Schema.Types.ObjectId,
+      ref:"City
+      reuired:[true,"City is reuired"],
+    }
+
+})
+
+export const User =mongoose.model("User",userSchema);
+
+
+=========================================================
+
+const healthcheck =async function(req,res)=>{
+    try{
+        await conslo.log("logic to connectwith db")
+        res
+        .status(200)
+        .json(new ApiResponse(200,{message:"serveris running}));
+
+    }catch(error){
+        c
+    }
+}
+
+=================================================================
+
+import {Router } from "express"
+
+import {healthcheck} from "../controllers/healthcheck.controller.js
+
+const router =Router();
+route.route("/").get(healthcheck);
+
+router.get("/",healthcheck)
+
+export default router;
+
+===================================================================
+
+

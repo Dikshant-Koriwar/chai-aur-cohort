@@ -1,0 +1,534 @@
+auth.controller.js
+
+import {asyncHandler} from "../util/asyncHandler.js
+
+
+const registerUser =asynchandler(async(req,res)=>{
+  const {email,password,username ,role}=req.body
+
+
+})
+
+
+registrationValidation(body);
+
+
+
+validator.middleware.js
+
+import { validationResult } from "express-validator";
+import { ApiError } from "../util/api-error.js"
+
+export const validate= (req,res,next)=>{
+  const error = validationResult(req)
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.generateAccessToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      username: this.username,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY },
+  );
+};
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRY },
+  );
+};
+
+userSchema.methods.generateTemporaryToken = function(){
+    const unHashedToken = crypto.randomBytes(20).toString("hex")
+
+    const hashedToken = crypto.createHash("sha256").update(unHashedToken).digest("hex")
+    const tokenExpiry = Date.now() + (20*60*1000) //20min
+
+    return {hashedToken, unHashedToken, tokenExpiry}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const userSchema = new Schema({
+    avatar:{
+        type:{
+            url: String
+            localpath:String,
+        },
+        default:{
+            url:"http://palacehold.co"
+            lacalpath:"",
+
+        },
+
+    },
+    username:{
+        type:String,
+        required:true,
+        unqiue:true,
+        lowercase:true,
+        trim:true,
+    },
+    email:{
+        type:String,
+        required:true,
+        unqiue:true,
+        lowercase:true,
+        trim:true,
+    },
+    fullname:{
+        type:String,
+        required:true,
+        
+    },
+    password:{
+        type:String,
+        required:[true, "password is required]
+    } 
+    isEmailVerified:{
+        type:Boolean,
+        default:false,
+
+    }
+    forgotPasswordToken:{
+        type:String
+    }
+    forgotPasswordExpiry:{
+        type:Date,
+    },
+           refreshToken:{
+            type:String
+           }
+           ,
+           emailVerifiactionToken:{
+            type:String,
+           }
+           ,
+           emailVerificationExpiry:{
+            type:Date,
+           }
+
+    
+},{
+    timestamps:true
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+eport const userRolesEnum ={
+    ADMIN:"admin",
+    PROJECT_ADMIN : "project_admin",
+    MEMBER : "member",
+    
+    }
+
+    export const AvailableUserRoles =Object.values(userRolesEnum)
+
+    export const TaskStatusEnum ={
+        TODO:"todo",
+        In_PROGRESS: "in_progress",
+        DONE :"done"
+    }
+
+    export const AvailableTaskStatuses =Object.values(TaskStatusEnum)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Here are `constants.js` files for **Hospital Management System**, **Parking Lot Management System**, and **E-commerce System**, following the same pattern you used.
+
+---
+
+### **1️⃣ Hospital Management System (`constants.js`)**
+```javascript
+export const UserRolesEnum = {
+  ADMIN: "admin",
+  DOCTOR: "doctor",
+  NURSE: "nurse",
+  RECEPTIONIST: "receptionist",
+  PATIENT: "patient",
+};
+
+export const AvailableUserRoles = Object.values(UserRolesEnum);
+
+export const AppointmentStatusEnum = {
+  SCHEDULED: "scheduled",
+  COMPLETED: "completed",
+  CANCELED: "canceled",
+  NO_SHOW: "no_show",
+};
+
+export const AvailableAppointmentStatuses = Object.values(AppointmentStatusEnum);
+
+export const PatientStatusEnum = {
+  ADMITTED: "admitted",
+  DISCHARGED: "discharged",
+  UNDER_OBSERVATION: "under_observation",
+};
+
+export const AvailablePatientStatuses = Object.values(PatientStatusEnum);
+```
+
+---
+
+### **2️⃣ Parking Lot Management System (`constants.js`)**
+```javascript
+export const UserRolesEnum = {
+  ADMIN: "admin",
+  ATTENDANT: "attendant",
+  CUSTOMER: "customer",
+};
+
+export const AvailableUserRoles = Object.values(UserRolesEnum);
+
+export const ParkingSpotStatusEnum = {
+  AVAILABLE: "available",
+  OCCUPIED: "occupied",
+  RESERVED: "reserved",
+  OUT_OF_SERVICE: "out_of_service",
+};
+
+export const AvailableParkingSpotStatuses = Object.values(ParkingSpotStatusEnum);
+
+export const VehicleTypeEnum = {
+  CAR: "car",
+  MOTORCYCLE: "motorcycle",
+  TRUCK: "truck",
+  ELECTRIC: "electric",
+};
+
+export const AvailableVehicleTypes = Object.values(VehicleTypeEnum);
+```
+
+---
+
+### **3️⃣ E-commerce System (`constants.js`)**
+```javascript
+export const UserRolesEnum = {
+  ADMIN: "admin",
+  SELLER: "seller",
+  CUSTOMER: "customer",
+  DELIVERY_AGENT: "delivery_agent",
+};
+
+export const AvailableUserRoles = Object.values(UserRolesEnum);
+
+export const OrderStatusEnum = {
+  PENDING: "pending",
+  PROCESSING: "processing",
+  SHIPPED: "shipped",
+  DELIVERED: "delivered",
+  CANCELED: "canceled",
+  RETURNED: "returned",
+};
+
+export const AvailableOrderStatuses = Object.values(OrderStatusEnum);
+
+export const PaymentStatusEnum = {
+  PENDING: "pending",
+  COMPLETED: "completed",
+  FAILED: "failed",
+  REFUNDED: "refunded",
+};
+
+export const AvailablePaymentStatuses = Object.values(PaymentStatusEnum);
+
+export const ProductCategoryEnum = {
+  ELECTRONICS: "electronics",
+  FASHION: "fashion",
+  HOME_APPLIANCES: "home_appliances",
+  BOOKS: "books",
+  TOYS: "toys",
+};
+
+export const AvailableProductCategories = Object.values(ProductCategoryEnum);
+```
+
+---
+
+## **How This Works**
+1. **`UserRolesEnum`** → Defines different user roles for each system.
+2. **`AvailableUserRoles`** → Stores all user roles as an array.
+3. **Status Enums (e.g., `AppointmentStatusEnum`, `OrderStatusEnum`)** → Define status categories for different entities.
+4. **`Object.values(SomeEnum)`** → Converts the object into an array for easier usage.
+
+Would you like me to add more specific enums for any system? 🚀
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class ApiResponse {
+    contructor(statusCode, data,message = "success"){
+        this.statusCode =statusCode
+        this.data =data
+        this.message= message
+        this.success= statuscode < 400 ;
+    }
+}
+export { ApiResponse }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import app from "./app.js:"
+import doetenv from "dotenv"
+import connectDB from "./db/index.js
+
+dotenv.config({
+    path:"./env"
+});
+
+const PORT =process.env.PORT || 8000
+
+connectDB()
+.then(()=>{
+    app.listen(PORT, ()=>{
+        console.log("server is running on port${PORT})
+    })
+})
+.catch((error)=>{
+    console.error("error connecting to the DB)
+    process.exit(1);
+class ApiError extends Error{
+    constructor(
+        statusCode,
+        message:"something went wrong",
+        errors:[],
+        stack:""
+    ){
+        super(message)
+        this.statusCode =statusCode
+        this.errors = errors
+
+        this.success =false
+
+        if(stack){
+            this.stack= stack
+        }else{
+
+            Error.captureStackTrace(this,this.contructor)
+
+        }
+
+    }
+}
+export {ApiError} 
+
+
+})
